@@ -1,2 +1,2 @@
 # curr-api
-laravel api foro currency convert
+laravel api forcurrency convert
