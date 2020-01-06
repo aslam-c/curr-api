@@ -62,8 +62,8 @@ class userController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required'
         ];
-
-        $validator = Validator::make($r->all(), $rules);
+        $msgs = ['email.email' => 'We need a real e-mail address'];
+        $validator = Validator::make($r->all(), $rules, $msgs);
 
         if ($validator->fails()) {
 
@@ -71,11 +71,15 @@ class userController extends Controller
 
             $data = [
                 'status' => 422,
-                'msg' => $errors->all()[0]
+                'errors' => $validator->errors()
             ];
         } else {
 
-            $user = User::create($r->all());
+            $user = User::create([
+                'name' => $r->name,
+                'email' => $r->email,
+                'password' => Hash::make($r->password)
+            ]);
 
 
             $data = [
